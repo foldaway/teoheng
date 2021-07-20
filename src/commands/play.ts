@@ -1,6 +1,8 @@
 import { Message } from 'discord.js';
 import youtubeDlExec from 'youtube-dl-exec';
 
+import Join from './join';
+
 const { COMMAND_PREFIX = '/' } = process.env;
 
 const ResultsCache = new Map<string, App.YTSearchEntry[]>();
@@ -41,6 +43,15 @@ async function processURL(url: URL, msg: Message) {
 
 const Play: App.CommandHandler = async function (msg) {
   const term = msg.content.split(' ').slice(1).join(' ');
+
+  if (msg.guild == null) {
+    return;
+  }
+
+  const senderVoiceChannel = msg.member?.voice?.channel;
+  if (senderVoiceChannel == null) {
+    await Join(msg);
+  }
 
   try {
     const url = new URL(term);
