@@ -29,6 +29,7 @@ declare namespace App {
   type QueueItem = YTSearchEntry;
 
   interface GuildSession {
+    currentItem: QueueItem | null;
     queue: QueueItem[];
   }
 }

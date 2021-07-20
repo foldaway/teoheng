@@ -12,21 +12,24 @@ const Queue: App.CommandHandler = async function (msg) {
     return;
   }
 
-  const queue = GuildManager.getQueue(msg.guild.id);
+  const { currentItem, queue } = GuildManager.getSession(msg.guild.id);
 
-  if (queue.length === 0) {
-    const reply = await msg.reply('queue is empty');
+  let content = '';
 
-    setTimeout(() => {
-      reply.delete();
-    }, 15 * 1000);
-    return;
+  if (currentItem != null) {
+    content += `Currently playing: **${currentItem.title}** | ${currentItem.uploader}\n\n`;
+  } else {
+    content += 'Currently playing: N/A\n\n';
   }
 
-  let content = `(${queue.length}) items in queue:\n\n`;
+  if (queue.length === 0) {
+    content += 'queue is empty';
+  } else {
+    content = `(${queue.length}) items in queue:\n\n`;
 
-  for (const item of queue) {
-    content += `**${item.title}** | ${item.uploader}\n`;
+    for (const item of queue) {
+      content += `**${item.title}** | ${item.uploader}\n`;
+    }
   }
 
   const reply = await msg.reply(content);

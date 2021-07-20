@@ -6,6 +6,7 @@ import Leave from './commands/leave';
 import Ping from './commands/ping';
 import Play from './commands/play';
 import Queue from './commands/queue';
+import GuildManager from './GuildManager';
 
 dotenv.config();
 
@@ -17,6 +18,8 @@ async function run() {
   }
 
   const client = new Discord.Client();
+
+  GuildManager.client = client;
 
   client.on('ready', () => {
     console.log(`Logged in as ${client.user?.tag}`);
