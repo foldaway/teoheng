@@ -1,0 +1,6 @@
+version: '3.9'
+
+services:
+  teoheng:
+    image: ghcr.io/fourthclasshonours/teoheng:latest
+    env_file: .env
