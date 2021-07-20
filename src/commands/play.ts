@@ -1,6 +1,7 @@
 import { Message } from 'discord.js';
 import youtubeDlExec from 'youtube-dl-exec';
 
+import GuildManager from '../GuildManager';
 import Join from './join';
 
 const { COMMAND_PREFIX = '/' } = process.env;
@@ -19,7 +20,7 @@ async function processURL(url: URL, msg: Message) {
       flatPlaylist: true,
     });
 
-    // TODO: do something with item
+    GuildManager.addToQueue(msg.guild!.id, [response]);
 
     msg.reply(`queueing **${response.title}** | ${response.uploader}`);
   } else if (params.has('list')) {
@@ -32,7 +33,8 @@ async function processURL(url: URL, msg: Message) {
 
     const searchResponse = response as unknown as App.YTSearchResponse;
 
-    // TODO: do something with items
+    GuildManager.addToQueue(msg.guild!.id, searchResponse.entries);
+
     msg.reply(
       `queueing ${searchResponse.entries.length} items from **'${searchResponse.title}'** | ${searchResponse.uploader}`
     );
@@ -47,6 +49,8 @@ const Play: App.CommandHandler = async function (msg) {
   if (msg.guild == null) {
     return;
   }
+
+  const guildId = msg.guild.id;
 
   const senderVoiceChannel = msg.member?.voice?.channel;
   if (senderVoiceChannel == null) {
@@ -109,7 +113,8 @@ const Play: App.CommandHandler = async function (msg) {
         throw Error();
       }
 
-      // TODO: Do something with the chosen entry
+      GuildManager.addToQueue(guildId, [chosen]);
+
       subMsg.reply(`queueing **${chosen.title}** | ${chosen.uploader}`);
     } catch (e) {
       subMsg.reply('invalid choice');

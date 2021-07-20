@@ -5,6 +5,7 @@ import Join from './commands/join';
 import Leave from './commands/leave';
 import Ping from './commands/ping';
 import Play from './commands/play';
+import Queue from './commands/queue';
 
 dotenv.config();
 
@@ -41,6 +42,11 @@ async function run() {
         }
         case 'play': {
           Play(message);
+          break;
+        }
+        case 'q':
+        case 'queue': {
+          Queue(message);
           break;
         }
         default: {

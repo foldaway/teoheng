@@ -5,8 +5,8 @@ declare namespace App {
 
   interface YTSearchEntry {
     duration: number;
-    _type: 'url';
-    ie_key: 'Youtube';
+    _type?: 'url';
+    ie_key?: 'Youtube';
     uploader: string;
     title: string;
     url: string;
@@ -24,5 +24,11 @@ declare namespace App {
     webpage_url_basename: string;
     title?: string;
     uploader?: string;
+  }
+
+  type QueueItem = YTSearchEntry;
+
+  interface GuildSession {
+    queue: QueueItem[];
   }
 }

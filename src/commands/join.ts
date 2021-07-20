@@ -1,3 +1,5 @@
+import GuildManager from '../GuildManager';
+
 const Join: App.CommandHandler = async function (msg) {
   if (msg.guild == null) {
     return;
@@ -13,6 +15,8 @@ const Join: App.CommandHandler = async function (msg) {
   await senderVoiceChannel.join();
 
   msg.reply(`Joined ${senderVoiceChannel.name}`);
+
+  GuildManager.init(senderVoiceChannel.guild.id);
 };
 
 export default Join;
