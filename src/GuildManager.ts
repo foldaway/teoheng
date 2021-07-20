@@ -6,6 +6,20 @@ const GuildMap = new Map<string, App.GuildSession>();
 const GuildManager = {
   client: new Discord.Client(),
 
+  update() {
+    const songs = [...GuildMap.values()]
+      .filter((session) => session.currentItem != null)
+      .map((session) => session.currentItem?.title);
+
+    this.client.user?.setPresence?.({
+      status: 'online',
+      activity: {
+        name: songs.join(', '),
+        type: 'LISTENING',
+      },
+    });
+  },
+
   init(guildId: string) {
     const session: App.GuildSession = {
       currentItem: null,
@@ -91,6 +105,7 @@ const GuildManager = {
       }
     );
 
+    this.update();
     const stream = connection.play(response.url, {
       volume: 0.5,
       highWaterMark: 1 << 25,
