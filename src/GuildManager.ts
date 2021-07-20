@@ -10,6 +10,7 @@ const GuildManager = {
     const session: App.GuildSession = {
       currentItem: null,
       queue: [],
+      stream: null,
     };
 
     GuildMap.set(guildId, session);
@@ -74,6 +75,12 @@ const GuildManager = {
       throw new Error('no voice connection');
     }
 
+    const session = GuildMap.get(guildId);
+
+    if (session == null) {
+      throw new Error('no session');
+    }
+
     const response = await youtubeDlExec(
       `https://youtube.com/watch?v=${videoId}`,
       {
@@ -85,6 +92,12 @@ const GuildManager = {
     );
 
     const stream = connection.play(response.url);
+
+    GuildMap.set(guildId, {
+      ...session,
+      stream,
+    });
+
     stream.on('finish', () => {
       const session = GuildMap.get(guildId);
 
@@ -95,6 +108,7 @@ const GuildManager = {
       GuildMap.set(guildId, {
         ...session,
         currentItem: null,
+        stream: null,
       });
 
       this.checkPlay(guildId);

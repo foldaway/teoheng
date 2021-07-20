@@ -31,5 +31,6 @@ declare namespace App {
   interface GuildSession {
     currentItem: QueueItem | null;
     queue: QueueItem[];
+    stream: import('discord.js').StreamDispatcher | null;
   }
 }

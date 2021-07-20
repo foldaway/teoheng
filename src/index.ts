@@ -6,6 +6,7 @@ import Leave from './commands/leave';
 import Ping from './commands/ping';
 import Play from './commands/play';
 import Queue from './commands/queue';
+import Skip from './commands/skip';
 import GuildManager from './GuildManager';
 
 dotenv.config();
@@ -50,6 +51,10 @@ async function run() {
         case 'q':
         case 'queue': {
           Queue(message);
+          break;
+        }
+        case 'skip': {
+          Skip(message);
           break;
         }
         default: {
