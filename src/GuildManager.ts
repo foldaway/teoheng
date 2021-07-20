@@ -91,7 +91,10 @@ const GuildManager = {
       }
     );
 
-    const stream = connection.play(response.url);
+    const stream = connection.play(response.url, {
+      volume: 0.5,
+      highWaterMark: 1 << 25,
+    });
 
     GuildMap.set(guildId, {
       ...session,
