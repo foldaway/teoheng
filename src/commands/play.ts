@@ -52,7 +52,7 @@ const Play: App.CommandHandler = async function (msg) {
 
   const guildId = msg.guild.id;
 
-  const senderVoiceChannel = msg.member?.voice?.channel;
+  const senderVoiceChannel = msg.client.voice?.connections?.get(guildId);
   if (senderVoiceChannel == null) {
     await Join(msg);
   }
@@ -117,6 +117,7 @@ const Play: App.CommandHandler = async function (msg) {
 
       subMsg.reply(`queueing **${chosen.title}** | ${chosen.uploader}`);
     } catch (e) {
+      console.error(e);
       subMsg.reply('invalid choice');
     }
 
