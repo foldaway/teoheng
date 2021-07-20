@@ -1,6 +1,8 @@
 import Discord from 'discord.js';
 import dotenv from 'dotenv';
 
+import Join from './commands/join';
+import Leave from './commands/leave';
 import Ping from './commands/ping';
 
 dotenv.config();
@@ -26,6 +28,14 @@ async function run() {
       switch (command) {
         case 'ping': {
           Ping(message);
+          break;
+        }
+        case 'join': {
+          Join(message);
+          break;
+        }
+        case 'leave': {
+          Leave(message);
           break;
         }
         default: {
